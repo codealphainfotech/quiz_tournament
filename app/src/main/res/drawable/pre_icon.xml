@@ -1,0 +1,11 @@
+<!-- res/drawable/pre_icon.xml -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#040303"/>
+        </shape>
+    </item>
+    <item android:right="8dp">
+        <bitmap android:gravity="left|center_vertical" android:src="@drawable/baseline_person_24"/>
+    </item>
+</layer-list>
