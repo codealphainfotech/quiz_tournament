@@ -1,0 +1,429 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+
+    android:background="@color/white">
+
+    <!-- Space -->
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="50dp"/>
+
+
+    <!-- Title -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp">
+
+        <ImageView
+            android:id="@+id/backIcon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/arrow_back"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true" />
+
+        <TextView
+            android:id="@+id/titleText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Details page"
+            android:textSize="25sp"
+            android:textColor="@color/blue"
+            android:textStyle="bold"
+            android:layout_centerInParent="true" />
+    </RelativeLayout>
+
+    <!-- Space -->
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="30dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Details"
+        android:textStyle="bold"
+        android:paddingStart="20dp"
+        android:textSize="21sp"
+        android:textColor="@color/black"/>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="10dp"/>
+
+    <!-- CardView -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardElevation="10dp"
+        app:cardCornerRadius="20dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardMaxElevation="12dp"
+        app:cardPreventCornerOverlap="true"
+        app:cardUseCompatPadding="true">
+
+        <!-- Name Text Views -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:orientation="vertical">
+
+            <!-- Name Section -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <!-- Name Label -->
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.4"
+                    android:text="Name :"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <!-- Name Value -->
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingStart="10dp"
+                    android:textColor="@color/black"
+                    android:text="Vidhya"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="5dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <!-- Name Label -->
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.4"
+                    android:textColor="@color/black"
+                    android:text="Catagory :"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <!-- Name Value -->
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingStart="10dp"
+                    android:textColor="@color/black"
+                    android:text="Movie"
+                    android:textSize="18sp" />
+            </LinearLayout>
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="5dp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <!-- Name Label -->
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.4"
+                    android:text="Difficulty :"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <!-- Name Value -->
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingStart="10dp"
+                    android:textColor="@color/black"
+                    android:text="Medium"
+                    android:textSize="18sp" />
+            </LinearLayout>
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="5dp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <!-- Name Label -->
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.4"
+                    android:text="Start date :"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <!-- Name Value -->
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="01/05/2024"
+                    android:textColor="@color/black"
+                    android:paddingStart="10dp"
+
+                    android:textSize="18sp" />
+            </LinearLayout>
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="5dp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <!-- Name Label -->
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.4"
+                    android:text="Last date :"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <!-- Name Value -->
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="01/05/2024"
+                    android:paddingStart="10dp"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+
+            <!-- Repeat similar sections for other details if needed -->
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="20dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:src="@drawable/like"/>
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:src="@drawable/dislike"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:text="0"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:text="0"/>
+
+    </LinearLayout>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="10dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Quiz questions:"
+        android:paddingStart="20dp"
+        android:textColor="@color/blue"
+        android:textSize="20sp"
+        android:textStyle="bold"/>
+
+
+
+
+    <!-- Question Container -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="8dp">
+
+        <LinearLayout
+            android:id="@+id/questionContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <!-- Questions will be added dynamically here -->
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:cardElevation="10dp"
+                        app:cardCornerRadius="20dp"
+                        app:cardBackgroundColor="@color/white"
+                        app:cardMaxElevation="8dp"
+                        app:cardPreventCornerOverlap="true"
+                        app:cardUseCompatPadding="true">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/questionTextView"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Q:1 In which actor play double role in tirnga movie?"
+                                android:textStyle="bold"
+                                android:textSize="18sp"
+                                android:textColor="@color/black"
+                                android:padding="10dp"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:background="?attr/selectableItemBackground" />
+
+                            <RadioGroup
+                                android:id="@+id/answersRadioGroup"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:visibility="gone">
+
+                                <RadioButton
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Paresh Raval"
+                                    android:textSize="16sp"
+                                    android:textColor="@color/black" />
+
+                                <RadioButton
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Pralaynath Gundaswami"
+                                    android:textSize="16sp"
+                                    android:textColor="@color/black" />
+
+                                <RadioButton
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Nana Patetkar"
+                                    android:textSize="16sp"
+                                    android:textColor="@color/black" />
+
+                                <RadioButton
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="No one"
+                                    android:textSize="16sp"
+                                    android:textColor="@color/black" />
+
+                            </RadioGroup>
+
+                        </LinearLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+                </LinearLayout>
+
+
+
+        </LinearLayout>
+
+
+
+
+    </ScrollView>
+
+    <!-- Space -->
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="30dp"/>
+
+    <!-- Submit Button -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+
+        <Button
+            android:id="@+id/btnSubmit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/blue"
+            android:text="Submit Answers"
+            android:textColor="@color/white"
+            android:textSize="22sp"
+            android:padding="15dp"/>
+
+    </LinearLayout>
+
+    <!-- Space -->
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="40dp"/>
+
+</LinearLayout>

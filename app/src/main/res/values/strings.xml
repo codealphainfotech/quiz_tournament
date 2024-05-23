@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">QuizApp</string>
+    <string-array name="difficulty_levels">
+        <item>Easy</item>
+        <item>Medium</item>
+        <item>Hard</item>
+        <item>Expert</item>
+    </string-array>
+
+    <string-array name="Catagory_level">
+        <item>Fun</item>
+        <item>Drama</item>
+        <item>Hard</item>
+        <item>Movies</item>
+
+    </string-array>
+
 </resources>

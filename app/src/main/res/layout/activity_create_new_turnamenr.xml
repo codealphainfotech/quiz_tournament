@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="40dp"/>
+
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp">
+
+        <ImageView
+            android:id="@+id/backIcon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/arrow_back"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true" />
+
+        <TextView
+            android:id="@+id/titleText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Create new turnament"
+            android:textSize="25sp"
+            android:textColor="@color/blue"
+            android:textStyle="bold"
+            android:layout_centerInParent="true" />
+    </RelativeLayout>
+
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="20dp">
+
+    </Space>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="wrap_content"
+        android:padding="20dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:background="@drawable/edit_text_border">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColorHint="@color/black"
+                android:textColor="@color/black"
+                android:background="@null"
+                android:hint="Enter your name"
+                android:inputType="textEmailAddress"
+                android:padding="12dp" />
+        </LinearLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="15dp">
+
+        </Space>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/edit_text_border">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Catagory :"
+                android:padding="5dp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="16sp"/>
+            <Spinner
+                android:id="@+id/spinnerCategory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:popupTheme="@style/SpinnerTheme"
+                android:theme="@style/Spinner"
+                android:entries="@array/Catagory_level"/>
+        </LinearLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="15dp"/>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/edit_text_border">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Difficulty :"
+                android:padding="5dp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="16sp"/>
+            <Spinner
+                android:id="@+id/spinnerCategory2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+
+                android:entries="@array/difficulty_levels"/>
+        </LinearLayout>
+
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="30dp"/>
+
+
+
+
+        <TextView
+            android:id="@+id/tvStartDateLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Start Date:"
+            android:textStyle="bold"
+            android:textColor="@color/blue"
+            android:textSize="18sp"
+            android:layout_marginBottom="8dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+
+                android:id="@+id/idTVSelectedDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="16sp"
+                android:text="01/05/2024"
+                android:textColor="@color/black"
+                android:padding="5dp">
+
+            </TextView>
+
+            <ImageView
+                android:id="@+id/idBtnPickDate"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="12"
+                android:padding="12dp"
+                android:background="@drawable/baseline_calendar_today_24">
+
+            </ImageView>
+
+        </LinearLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="20dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="End Date:"
+            android:textStyle="bold"
+            android:textColor="@color/blue"
+
+            android:textSize="18sp"
+            android:layout_marginBottom="8dp" />
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/idTVSelectedDate2"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="5dp"
+                android:text="01/05/2024"
+                android:textColor="@color/black"
+                android:textSize="16sp">
+
+            </TextView>
+
+            <ImageView
+                android:id="@+id/idBtnPickDate2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="12"
+                android:padding="12dp"
+                android:background="@drawable/baseline_calendar_today_24">
+
+            </ImageView>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="230dp">
+
+    </Space>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+        <Button
+            android:id="@+id/Btn_CreateTurnament"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/blue"
+            android:padding="15dp"
+            android:text="Save"
+            android:textColor="@color/white"
+            android:textSize="20dp">
+
+        </Button>
+
+    </LinearLayout>
+
+
+
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="30dp"/>
+
+
+</LinearLayout>

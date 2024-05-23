@@ -9,15 +9,29 @@
     android:background="@color/white"
     tools:context=".SignUpPage">
 
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="30dp"/>
+
+    <ImageView
+        android:id="@+id/backIcon"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_margin="16dp"
+        android:src="@drawable/arrow_back"
+
+       android:clickable="true"
+        android:focusable="true" />
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingStart="30dp"
+        android:paddingTop="70dp"
         android:text="Sign Up"
         android:textColor="@color/blue"
-        android:textStyle="bold"
         android:textSize="40sp"
-        android:paddingTop="100dp"
-        android:paddingStart="30dp" />
+        android:textStyle="bold" />
 
     <TextView
         android:layout_width="match_parent"
