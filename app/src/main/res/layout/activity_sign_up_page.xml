@@ -125,6 +125,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:padding="20dp">
         <Button
 
@@ -138,6 +139,14 @@
             android:padding="12dp">
 
         </Button>
+
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:layout_width="56dp"
+            android:indeterminate="true"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:id="@+id/progress_circularView"
+            android:layout_height="56dp"/>
     </LinearLayout>
 
 </LinearLayout>
