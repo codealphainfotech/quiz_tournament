@@ -4,48 +4,52 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white"
     android:orientation="vertical"
     android:padding="20dp"
-    tools:context=".HomepageList">
-
+    android:background="@color/white"
+    android:layout_height="match_parent"
+    tools:context=".HomepageCards.CatagoryPage">
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="20dp"/>
+        android:layout_height="40dp"/>
+
+
+
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp">
-
-        <TextView
-            android:id="@+id/titleTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Catloges"
-            android:layout_centerInParent="true"
-            android:gravity="center"
-            android:textColor="@color/blue"
-            android:textStyle="bold"
-            android:textSize="28sp"/>
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp">
 
         <ImageView
-            android:id="@+id/logoutIcon"
+            android:id="@+id/backIcon"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/baseline_logout_24"
-            android:contentDescription="Logout"/>
+            android:src="@drawable/arrow_back"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true" />
 
+        <TextView
+            android:id="@+id/titleText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Catagories"
+            android:textSize="25sp"
+            android:textColor="@color/blue"
+            android:textStyle="bold"
+            android:layout_centerInParent="true" />
     </RelativeLayout>
+
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="10dp"/>
+        android:layout_height="20dp">
 
+    </Space>
 
     <androidx.cardview.widget.CardView
 
@@ -67,7 +71,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Ctagories"
+                android:text="Maths"
                 android:textStyle="bold"
                 android:textSize="20sp"
                 android:textColor="@android:color/black" />
@@ -105,7 +109,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Turnaments"
+                android:text="Science"
                 android:textStyle="bold"
                 android:textSize="20sp"
                 android:textColor="@android:color/black" />
@@ -140,7 +144,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Users"
+                android:text="English"
                 android:textStyle="bold"
                 android:textSize="20sp"
                 android:textColor="@android:color/black" />
@@ -151,5 +155,29 @@
                 android:src="@drawable/next_arrow" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="450dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+        <Button
+
+            android:id="@+id/btnCtagories"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/blue"
+            android:padding="15dp"
+            android:text="Add new catagories"
+            android:textColor="@color/white"
+            android:textSize="20dp">
+
+        </Button>
+
+
+    </LinearLayout>
 
 </LinearLayout>

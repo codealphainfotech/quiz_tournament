@@ -13,6 +13,18 @@
         android:theme="@style/Theme.QuizApp"
         tools:targetApi="31">
         <activity
+            android:name=".AddCatagoryPage"
+            android:exported="false" />
+        <activity
+            android:name=".HomepageCards.UsersPage"
+            android:exported="false" />
+        <activity
+            android:name=".HomepageCards.TornamentPage"
+            android:exported="false" />
+        <activity
+            android:name=".HomepageCards.CatagoryPage"
+            android:exported="false" />
+        <activity
             android:name=".CreateNewTurnamenr"
             android:exported="false" />
         <activity

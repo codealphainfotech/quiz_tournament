@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -22,6 +23,8 @@ public class CreateNewTurnamenr extends AppCompatActivity {
     private ImageView pickDateBtn,pickDateBtn2;
     private TextView selectedDateTV ,SelectedDateTV2;
 
+    private Spinner catagorySpinner , DifficultySpinner;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +37,11 @@ public class CreateNewTurnamenr extends AppCompatActivity {
         selectedDateTV = findViewById(R.id.idTVSelectedDate);
         SelectedDateTV2 = findViewById(R.id.idTVSelectedDate2);
         pickDateBtn2 = findViewById(R.id.idBtnPickDate2);
+        catagorySpinner = findViewById(R.id.spinnerCategory);
+        DifficultySpinner = findViewById(R.id.spinnerDifficulty);
+
+        //Catagory spinner
+
 
         pickDateBtn2.setOnClickListener(new View.OnClickListener() {
             @Override

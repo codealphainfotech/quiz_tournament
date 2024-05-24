@@ -14,13 +14,14 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.quizapp.Admin.QuestionPage;
+import com.example.quizapp.HomepageCards.CatagoryPage;
+import com.example.quizapp.HomepageCards.TornamentPage;
+import com.example.quizapp.HomepageCards.UsersPage;
 
 public class HomepageList extends AppCompatActivity {
 
-    Button BtnCreatNewTurnament;
-    ImageView   BackButton;
+    CardView cardCatagory,cardTurnaments,cardUsers;
 
-    CardView card_to_details;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,42 +29,32 @@ public class HomepageList extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_homepage_list);
 
-        BtnCreatNewTurnament = findViewById(R.id.Btn_CreateTurnament);
+        cardCatagory = findViewById(R.id.Catagorycard);
+        cardTurnaments = findViewById(R.id.TurnamentsCard);
+        cardUsers = findViewById(R.id.UsersCard);
 
-        BackButton = findViewById(R.id.backIcon);
-
-        card_to_details = findViewById(R.id.information_card);
-
-        BackButton.setOnClickListener(new View.OnClickListener() {
+        cardCatagory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
-            }
-        });
-
-
-        BtnCreatNewTurnament.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(HomepageList.this, CreateNewTurnamenr.class);
+                Intent intent = new Intent(HomepageList.this, CatagoryPage.class);
                 startActivity(intent);
-
-
-
             }
         });
-
-        card_to_details.setOnClickListener(new View.OnClickListener() {
+        cardTurnaments.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Intent intent = new Intent(HomepageList.this, QuestionPage.class);
+                Intent intent = new Intent(HomepageList.this, TornamentPage.class);
                 startActivity(intent);
-
-
             }
         });
 
+        cardUsers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomepageList.this, UsersPage.class);
+                startActivity(intent);
+            }
+        });
 
 
     }

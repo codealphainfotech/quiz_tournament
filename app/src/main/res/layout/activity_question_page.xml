@@ -407,7 +407,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp">
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp">
 
         <Button
             android:id="@+id/btnSubmit"
@@ -415,6 +416,23 @@
             android:layout_height="wrap_content"
             android:backgroundTint="@color/blue"
             android:text="Submit Answers"
+            android:textColor="@color/white"
+            android:textSize="22sp"
+            android:padding="15dp"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp">
+
+        <Button
+            android:id="@+id/btnDlt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/red"
+            android:text="Detete turnament"
             android:textColor="@color/white"
             android:textSize="22sp"
             android:padding="15dp"/>
