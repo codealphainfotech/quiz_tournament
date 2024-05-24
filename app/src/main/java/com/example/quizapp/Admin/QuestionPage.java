@@ -32,6 +32,7 @@ public class QuestionPage extends AppCompatActivity {
         questionTextView = findViewById(R.id.questionTextView);
         answersRadioGroup = findViewById(R.id.answersRadioGroup);
 
+
         questionTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

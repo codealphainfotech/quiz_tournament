@@ -3,6 +3,7 @@ package com.example.quizapp;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
@@ -37,10 +38,25 @@ public class CreateNewTurnamenr extends AppCompatActivity {
         selectedDateTV = findViewById(R.id.idTVSelectedDate);
         SelectedDateTV2 = findViewById(R.id.idTVSelectedDate2);
         pickDateBtn2 = findViewById(R.id.idBtnPickDate2);
+
+
+        //Catagory spinner
+
         catagorySpinner = findViewById(R.id.spinnerCategory);
         DifficultySpinner = findViewById(R.id.spinnerDifficulty);
 
-        //Catagory spinner
+        // Set up the category spinner
+        ArrayAdapter<CharSequence> categoryAdapter = ArrayAdapter.createFromResource(this,
+                R.array.category_array, android.R.layout.simple_spinner_item);
+        categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        catagorySpinner.setAdapter(categoryAdapter);
+
+        // Set up the difficulty spinner
+        ArrayAdapter<CharSequence> difficultyAdapter = ArrayAdapter.createFromResource(this,
+                R.array.difficulty_array, android.R.layout.simple_spinner_item);
+        difficultyAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        DifficultySpinner.setAdapter(difficultyAdapter);
+
 
 
         pickDateBtn2.setOnClickListener(new View.OnClickListener() {

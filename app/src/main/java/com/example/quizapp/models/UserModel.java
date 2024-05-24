@@ -1,5 +1,8 @@
 package com.example.quizapp.models;
 
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
+
 public class UserModel {
 
     private  String userID;
@@ -59,5 +62,7 @@ public class UserModel {
     public void setUserID(String userID) {
         this.userID = userID;
     }
+
+
 }
 

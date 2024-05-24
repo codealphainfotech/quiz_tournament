@@ -1,0 +1,16 @@
+<resources>
+    <!-- Other strings -->
+    <string name="select_category">Select Category</string>
+    <string-array name="category_array">
+        <item>Maths</item>
+        <item>Science</item>
+        <item>English</item>
+    </string-array>
+
+    <string name="select_difficulty">Select Difficulty</string>
+    <string-array name="difficulty_array">
+        <item>Easy</item>
+        <item>Medium</item>
+        <item>Hard</item>
+    </string-array>
+</resources>
