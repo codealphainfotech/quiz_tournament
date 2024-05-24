@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "240145829533",
+    "project_id": "quiztournament-50271",
+    "storage_bucket": "quiztournament-50271.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:240145829533:android:040369efcaac8b3a60ce74",
+        "android_client_info": {
+          "package_name": "com.example.quizapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAJwK1wZ3k8vHoodb2gZLDLhNPMWMM5tWo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
