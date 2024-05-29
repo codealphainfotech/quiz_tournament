@@ -110,6 +110,7 @@ public class LoginPage extends AppCompatActivity {
                                 public void onGetUserSuccess(UserModel user) {
                                     Log.e(TAG, "onGetUserSuccess: role :" + user.getRole() );
                                     sharedPrefsHelper.saveUserRole(user.getRole());
+                                    sharedPrefsHelper.saveUserModelToSharedPref(user);
                                     Intent mainIntent;
                                     if (Objects.equals(user.getRole(), "admin")){
                                         mainIntent = new Intent(LoginPage.this, HomepageList.class);

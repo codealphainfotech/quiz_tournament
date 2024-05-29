@@ -64,6 +64,8 @@ public class MainActivity extends AppCompatActivity {
                     Log.e(TAG, "onGetUserSuccess: role :" + user.getRole() );
 
                     sharedPrefsHelper.saveUserRole(user.getRole());
+                    sharedPrefsHelper.saveUserModelToSharedPref(user);
+
                     Intent mainIntent;
                     if (Objects.equals(user.getRole(), "admin")){
                         mainIntent = new Intent(MainActivity.this, HomepageList.class);

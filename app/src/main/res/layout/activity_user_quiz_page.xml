@@ -57,7 +57,9 @@
             android:visibility="gone" />
 
 
+<!--       quiz view  -->
         <LinearLayout
+
             android:id="@+id/lvQuizView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -286,6 +288,58 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/lvGameOverView"
+            android:orientation="vertical"
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            
+            <ImageView
+                android:layout_margin="8dp"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:src="@drawable/trophy"/>
+
+            <TextView
+                android:layout_marginTop="14dp"
+                android:layout_width="wrap_content"
+                android:textSize="12sp"
+                android:textColor="@android:color/darker_gray"
+                android:layout_height="wrap_content"
+                android:text="Tournament Title"/>
+
+            <TextView
+                android:layout_marginTop="6dp"
+                android:id="@+id/tvGameOverTitle"
+                android:layout_width="wrap_content"
+                android:textSize="14sp"
+                android:textColor="@android:color/black"
+                android:layout_height="wrap_content"
+                android:text="Tournament Title"/>
+
+
+
+            <TextView
+                android:layout_marginTop="14dp"
+                android:layout_width="wrap_content"
+                android:textSize="12sp"
+                android:textColor="@android:color/darker_gray"
+                android:layout_height="wrap_content"
+                android:text="Your Score"/>
+
+            <TextView
+                android:layout_marginTop="6dp"
+                android:id="@+id/tvGameOverScore"
+                android:layout_width="wrap_content"
+                android:textSize="16sp"
+                android:textColor="@android:color/black"
+                android:layout_height="wrap_content"
+                android:text="( 0 / 10 )"/>
+
+        </LinearLayout>
     </RelativeLayout>
 
     <LinearLayout

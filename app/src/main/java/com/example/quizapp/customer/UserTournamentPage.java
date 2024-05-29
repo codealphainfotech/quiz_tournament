@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.example.quizapp.LoginPage;
 import com.example.quizapp.R;
 import com.example.quizapp.adapters.TournamentListAdapter;
 import com.example.quizapp.contoller.OnSuccessListner;
@@ -18,6 +19,7 @@ import com.example.quizapp.databinding.ActivityCustomerTornamentPageBinding;
 import com.example.quizapp.databinding.ActivityTornamentPageBinding;
 import com.example.quizapp.tournament.CreateNewTournament;
 import com.example.quizapp.utils.SharedPrefsHelper;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class UserTournamentPage extends AppCompatActivity {
 
@@ -33,6 +35,11 @@ public class UserTournamentPage extends AppCompatActivity {
 
     SharedPrefsHelper sharedPrefsHelper;
 
+    private FirebaseAuth mAuth;
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +52,9 @@ public class UserTournamentPage extends AppCompatActivity {
 
         sharedPrefsHelper = new SharedPrefsHelper(this);
 
+        mAuth = FirebaseAuth.getInstance();
+
+
 
         adapter = new TournamentListAdapter(this,quizConroller.getTournamentList(), false);
         quizConroller.initAdapter(adapter);
@@ -54,6 +64,15 @@ public class UserTournamentPage extends AppCompatActivity {
         showProgree(true);
 
         loadData();
+
+
+        binding.logoutIcon.setOnClickListener(v -> {
+            mAuth.signOut();
+            sharedPrefsHelper.clearOnLogout();
+            Intent intent = new Intent(this, LoginPage.class);
+            startActivity(intent);
+            finish();
+        });
 
 
 

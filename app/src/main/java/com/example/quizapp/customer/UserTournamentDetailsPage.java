@@ -14,9 +14,14 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.quizapp.R;
+import com.example.quizapp.contoller.OnGetQuizPlayedModelListener;
 import com.example.quizapp.contoller.QuizConroller;
 import com.example.quizapp.databinding.ActivityUserQuestionPageBinding;
+import com.example.quizapp.models.QuizPlayedModel;
 import com.example.quizapp.models.TournamentModel;
+import com.example.quizapp.models.UserModel;
+import com.example.quizapp.utils.HelperUtils;
+import com.example.quizapp.utils.SharedPrefsHelper;
 
 public class UserTournamentDetailsPage extends AppCompatActivity {
 
@@ -30,6 +35,12 @@ public class UserTournamentDetailsPage extends AppCompatActivity {
     private  int tournamentIndex = 0;
     private  String tournamentID = "";
     private  TournamentModel tournamentModel;
+
+    private UserModel userModel;
+
+    private SharedPrefsHelper prefsHelper;
+
+    boolean isplayed  = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +49,9 @@ public class UserTournamentDetailsPage extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         quizConroller = new QuizConroller();
+        prefsHelper = new SharedPrefsHelper(this);
+
+        userModel = prefsHelper.getUserModelFromSharedPref();
 
 
         Intent i = getIntent();
@@ -54,6 +68,7 @@ public class UserTournamentDetailsPage extends AppCompatActivity {
                 setData();
             }
         }
+
 
         backIcon = findViewById(R.id.backIcon);
 
@@ -86,6 +101,46 @@ public class UserTournamentDetailsPage extends AppCompatActivity {
             }
         });
 
+        getPlayedData();
+
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getPlayedData();
+    }
+
+    void getPlayedData(){
+        showProgress(true);
+        try {
+            quizConroller.getQuizPlayedModelByUserIdAndTournamentId(userModel.getUserID(), tournamentModel.getId(), new OnGetQuizPlayedModelListener() {
+                @Override
+                public void onGetQuizPlayedModel(QuizPlayedModel quizPlayedModel) {
+                    showProgress(false);
+                    if (quizPlayedModel != null){
+
+                        String date = HelperUtils.convertDateToStr(quizPlayedModel.getPlayedDate());
+                        binding.tvQuizDate.setText(date);
+                        binding.tvQuizScore.setText("" + quizPlayedModel.getScore());
+                        showStartButton(false);
+                    }else{
+                        showStartButton(true);
+                    }
+                }
+
+                @Override
+                public void onGetError(String message) {
+                    showProgress(false);
+                    showStartButton(true);
+                    Log.e(TAG, "onGetError: " + message);
+                }
+            });
+        }catch (Exception e){
+            Log.e(TAG, "getPlayedData: " + e.getMessage() );
+        }
+
     }
 
     void setData(){
@@ -94,5 +149,26 @@ public class UserTournamentDetailsPage extends AppCompatActivity {
         binding.tvstartDate.setText(tournamentModel.getStartDate());
         binding.tvEndDate.setText(tournamentModel.getEndDate());
         binding.tvDifficulty.setText(tournamentModel.getDifficulty().toUpperCase());
+    }
+
+    void showProgress(boolean show){
+        if (show){
+            binding.lvDetailsView.setVisibility(View.GONE);
+            binding.progressCircularView.setVisibility(View.VISIBLE);
+        }else {
+            binding.lvDetailsView.setVisibility(View.VISIBLE);
+            binding.progressCircularView.setVisibility(View.GONE);
+        }
+    }
+
+    void showStartButton(boolean isShow){
+        if (isShow){
+            binding.lvPlayedQuizView.setVisibility(View.GONE);
+            binding.btnStartQuiz.setVisibility(View.VISIBLE);
+
+        }else {
+            binding.lvPlayedQuizView.setVisibility(View.VISIBLE);
+            binding.btnStartQuiz.setVisibility(View.GONE);
+        }
     }
 }

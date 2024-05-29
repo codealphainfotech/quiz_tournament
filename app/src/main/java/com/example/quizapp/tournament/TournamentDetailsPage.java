@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.RadioGroup;
-import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResult;
@@ -15,16 +13,21 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.example.quizapp.R;
+import com.example.quizapp.adapters.UserListWithScoreAdapter;
 import com.example.quizapp.contoller.OnFailed;
+import com.example.quizapp.contoller.OnGetPlayedQuizModelsListener;
 import com.example.quizapp.contoller.OnSuccessListner;
 import com.example.quizapp.contoller.QuizConroller;
 import com.example.quizapp.databinding.ActivityQuestionPageBinding;
-import com.example.quizapp.databinding.ActivityTornamentPageBinding;
+import com.example.quizapp.models.QuizPlayedModel;
 import com.example.quizapp.models.TournamentModel;
 import com.example.quizapp.utils.ReusableAlertDialog;
 import com.example.quizapp.utils.ToastUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class TournamentDetailsPage extends AppCompatActivity {
 
@@ -35,37 +38,36 @@ public class TournamentDetailsPage extends AppCompatActivity {
     private ActivityQuestionPageBinding binding;
     private QuizConroller quizConroller;
 
-    private  int tournamentIndex = 0;
-    private  String tournamentID = "";
-    private  TournamentModel tournamentModel;
+    private int tournamentIndex = 0;
+    private String tournamentID = "";
+    private TournamentModel tournamentModel;
+
+    private UserListWithScoreAdapter adapter;
+
+    ArrayList<QuizPlayedModel> quizPlayedModelsList = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        binding  =  ActivityQuestionPageBinding.inflate(getLayoutInflater());
+        binding = ActivityQuestionPageBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         quizConroller = new QuizConroller();
 
-
         Intent i = getIntent();
-        if (i.getExtras() != null){
+        if (i.getExtras() != null) {
             tournamentIndex = i.getIntExtra("index", 0);
             tournamentID = i.getStringExtra("id");
-            Log.e(TAG, "onCreate: index :" + tournamentIndex );
-            Log.e(TAG, "onCreate: id :" + tournamentID );
-            Log.e(TAG, "onCreate: " + i.getStringExtra("model"));
-
             tournamentModel = quizConroller.decodeTournamentFromJson(i.getStringExtra("model"));
 
-            if (tournamentModel != null){
+            if (tournamentModel != null) {
                 setData();
             }
         }
 
-        backIcon = findViewById(R.id.backIcon);
 
-        backIcon.setOnClickListener(new View.OnClickListener() {
+        binding.backIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
@@ -78,36 +80,78 @@ public class TournamentDetailsPage extends AppCompatActivity {
                 ReusableAlertDialog.showConfirmationDialog(TournamentDetailsPage.this, "Delete Tournament?", "This will delete all the info related with this Tournament. This action can not be undone.", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                      deleteTournament();
+                        deleteTournament();
                     }
                 });
             }
         });
 
-
-
         ActivityResultLauncher<Intent> editLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
             @Override
             public void onActivityResult(ActivityResult result) {
-                if (result.getResultCode() == 123){//update ui
+                if (result.getResultCode() == 123) {//update ui
                     tournamentModel = quizConroller.decodeTournamentFromJson(result.getData().getStringExtra("model"));
-                    Log.e(TAG, "onActivityResult: Reset new data" );
+                    Log.e(TAG, "onActivityResult: Reset new data");
                     setData();
                 }
             }
         });
 
-        binding.ivBtnEdit.setOnClickListener(v ->{
+        binding.ivBtnEdit.setOnClickListener(v -> {
             Intent editIntent = new Intent(TournamentDetailsPage.this, CreateNewTournament.class);
             editIntent.putExtra("model", tournamentModel.toJsonString());
             editLauncher.launch(editIntent);
         });
 
 
+        //get data
+        setRv();
 
     }
 
-    void setData(){
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getUserPlayedData();
+    }
+
+    void setRv() {
+        adapter = new UserListWithScoreAdapter(quizPlayedModelsList, this);
+        binding.rvUsersList.setLayoutManager(new LinearLayoutManager(TournamentDetailsPage.this));
+        binding.rvUsersList.setAdapter(adapter);
+    }
+
+
+    public void getUserPlayedData() {
+        showProgress(true);
+        quizConroller.getPlayedQuizModelsByTournamentId(tournamentModel.getId(), new OnGetPlayedQuizModelsListener() {
+            @Override
+            public void onGetPlayedQuizModels(List<QuizPlayedModel> playedQuizModels) {
+                quizPlayedModelsList = (ArrayList<QuizPlayedModel>) playedQuizModels;
+                showProgress(false);
+                setRv();
+            }
+
+            @Override
+            public void onGetError(String message) {
+                showProgress(false);
+                setData();
+            }
+        });
+    }
+
+
+    void showProgress(boolean show) {
+        if (show) {
+            binding.rvUsersList.setVisibility(View.GONE);
+            binding.progressCircularView.setVisibility(View.VISIBLE);
+        } else {
+            binding.rvUsersList.setVisibility(View.VISIBLE);
+            binding.progressCircularView.setVisibility(View.GONE);
+        }
+    }
+
+    void setData() {
         binding.tvTitle.setText(tournamentModel.getTitle());
         binding.tvCategory.setText(tournamentModel.getCategoryName());
         binding.tvstartDate.setText(tournamentModel.getStartDate());
@@ -115,7 +159,7 @@ public class TournamentDetailsPage extends AppCompatActivity {
         binding.tvDifficulty.setText(tournamentModel.getDifficulty().toUpperCase());
     }
 
-    void deleteTournament(){
+    void deleteTournament() {
         quizConroller.deleteTournament(tournamentModel.getId(), new OnSuccessListner() {
             @Override
             public void onSuccess() {

@@ -12,13 +12,16 @@ import com.android.volley.toolbox.Volley;
 import com.example.quizapp.adapters.TournamentListAdapter;
 import com.example.quizapp.models.ApiResponse;
 import com.example.quizapp.models.CategoryModel;
+import com.example.quizapp.models.QuizPlayedModel;
 import com.example.quizapp.models.TournamentModel;
+import com.example.quizapp.models.UserModel;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -26,12 +29,16 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class QuizConroller {
 
     static  String TAG = "QuizConroller";
     private String quiz_path = "all_quiz";
+
+    private  String played_quiz_path = "quizPlayedRecords";
 
     private TournamentListAdapter adapter;
     public QuizConroller() {
@@ -237,6 +244,59 @@ public class QuizConroller {
             stringList.add(jsonArray.getString(i));
         }
         return stringList;
+    }
+
+
+    //function to save played quiz
+    public void saveQuizPlayedRecord(QuizPlayedModel quizPlayedModel, OnSaveRecordListener listener) {
+        if (quizPlayedModel == null || quizPlayedModel.getId() == null || quizPlayedModel.getTournamentModel() == null || quizPlayedModel.getUserModel() == null || quizPlayedModel.getPlayedDate() == null || quizPlayedModel.getScore() == 0) {
+            listener.onSaveError("Missing required fields in QuizPlayedModel.");
+            return;
+        }
+
+        db.collection(played_quiz_path)
+                .document(quizPlayedModel.getId())
+                .set(quizPlayedModel)
+                .addOnSuccessListener(unused -> listener.onSaveSuccess("Quiz Played Record saved successfully!"))
+                .addOnFailureListener(e -> listener.onSaveError("Error saving Quiz Played Record: " + e.getMessage()));
+    }
+
+    // get played quiz by user id and tournament id
+    public void getQuizPlayedModelByUserIdAndTournamentId(String userId, String tournamentId, OnGetQuizPlayedModelListener listener) {
+
+        db.collection(played_quiz_path)
+                .whereEqualTo("userModel.userID", userId)
+                .whereEqualTo("tournamentModel.id", tournamentId)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    if (queryDocumentSnapshots.isEmpty()) {
+                        listener.onGetQuizPlayedModel(null);
+                        return;
+                    }
+
+                    // Assuming there's only one document matching the criteria (handle multiple if needed)
+                    QuizPlayedModel quizPlayedModel = queryDocumentSnapshots.getDocuments().get(0).toObject(QuizPlayedModel.class);
+                    listener.onGetQuizPlayedModel(quizPlayedModel);
+                })
+                .addOnFailureListener(e -> listener.onGetError(e.getMessage()));
+    }
+
+
+    public void getPlayedQuizModelsByTournamentId( String tournamentId, OnGetPlayedQuizModelsListener listener) {
+        db.collection("quizPlayedRecords")
+                .whereEqualTo("tournamentModel.id", tournamentId)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    List<QuizPlayedModel> playedQuizModels = new ArrayList<>();
+                    for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                        QuizPlayedModel playedQuizModel = document.toObject(QuizPlayedModel.class);
+                        if (playedQuizModel != null) {
+                            playedQuizModels.add(playedQuizModel);
+                        }
+                    }
+                    listener.onGetPlayedQuizModels(playedQuizModels);
+                })
+                .addOnFailureListener(e -> listener.onGetError(e.getMessage()));
     }
 
 }

@@ -11,6 +11,7 @@ import androidx.cardview.widget.CardView;
 import com.example.quizapp.HomepageCards.TournamentPage;
 import com.example.quizapp.HomepageCards.UsersPage;
 import com.example.quizapp.databinding.ActivityHomepageListBinding;
+import com.example.quizapp.utils.SharedPrefsHelper;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class HomepageList extends AppCompatActivity {
@@ -23,6 +24,10 @@ public class HomepageList extends AppCompatActivity {
     private static final String TAG = "HomepageList";
     private FirebaseAuth mAuth;
 
+    private SharedPrefsHelper sharedPrefsHelper;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +38,7 @@ public class HomepageList extends AppCompatActivity {
         setContentView(view);
 
         mAuth = FirebaseAuth.getInstance();
+        sharedPrefsHelper = new SharedPrefsHelper(this);
 
         cardTurnaments = findViewById(R.id.TurnamentsCard);
         cardUsers = findViewById(R.id.UsersCard);
@@ -55,7 +61,10 @@ public class HomepageList extends AppCompatActivity {
 
         binding.logoutIcon.setOnClickListener(v -> {
             mAuth.signOut();
+            sharedPrefsHelper.clearOnLogout();
+
             Intent intent = new Intent(this, LoginPage.class);
+
             startActivity(intent);
             finish();
         });

@@ -14,16 +14,22 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.quizapp.R;
+import com.example.quizapp.contoller.OnSaveRecordListener;
 import com.example.quizapp.contoller.QuizConroller;
 import com.example.quizapp.contoller.VolleyCallback;
 import com.example.quizapp.databinding.ActivityUserQuestionPageBinding;
 import com.example.quizapp.databinding.ActivityUserQuizPageBinding;
 import com.example.quizapp.models.ApiResponse;
+import com.example.quizapp.models.QuizPlayedModel;
 import com.example.quizapp.models.TournamentModel;
+import com.example.quizapp.models.UserModel;
+import com.example.quizapp.utils.HelperUtils;
+import com.example.quizapp.utils.SharedPrefsHelper;
 import com.example.quizapp.utils.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -43,6 +49,8 @@ public class UserQuizPage extends AppCompatActivity {
     private List<ApiResponse.Result> quizList = new ArrayList<>();
     private  List<String> ansList = new ArrayList<>();
 
+    private SharedPrefsHelper sharedPrefsHelper;
+
 
     private  int score = 0;
     @Override
@@ -53,6 +61,8 @@ public class UserQuizPage extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         quizConroller = new QuizConroller();
+
+        sharedPrefsHelper = new SharedPrefsHelper(this);
 
         Intent i = getIntent();
         if (i.getExtras() != null){
@@ -138,7 +148,7 @@ public class UserQuizPage extends AppCompatActivity {
         binding.btnFinish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+               showGameOverView(true);
             }
         });
     }
@@ -169,7 +179,21 @@ public class UserQuizPage extends AppCompatActivity {
             showNextBtn(true);
         }else {
             showFinish(true);
-            ToastUtils.successToast(UserQuizPage.this, "Quiz Finished");
+            String pId = HelperUtils.generateUniqueID();
+            UserModel user = sharedPrefsHelper.getUserModelFromSharedPref();
+            QuizPlayedModel quizPlayedModel = new QuizPlayedModel(pId, tournamentModel,user,new Date(), score);
+            quizConroller.saveQuizPlayedRecord(quizPlayedModel, new OnSaveRecordListener() {
+                @Override
+                public void onSaveSuccess(String message) {
+                    ToastUtils.successToast(UserQuizPage.this, "Quiz Finished");
+
+                }
+
+                @Override
+                public void onSaveError(String message) {
+                    ToastUtils.errorToast(UserQuizPage.this, message);
+                }
+            });
         }
 
     }
@@ -177,6 +201,8 @@ public class UserQuizPage extends AppCompatActivity {
     private void updateScore(){
         score +=1;
         binding.tvQueRightCount.setText(String.format("Right Ans : %d / 10", score ));
+        binding.tvGameOverScore.setText(String.format("Right Ans : %d / 10", score ));
+        binding.tvGameOverTitle.setText(tournamentModel.getTitle());
 
     }
 
@@ -267,6 +293,15 @@ public class UserQuizPage extends AppCompatActivity {
         }
     }
 
+    void showGameOverView(boolean isShow){
+        if (isShow){
+            binding.btnFinish.setVisibility(View.GONE);
+            binding.lvQuizView.setVisibility(View.GONE);
+            binding.lvGameOverView.setVisibility(View.VISIBLE);
+        }else {
+            binding.lvGameOverView.setVisibility(View.GONE);
+        }
+    }
 
     public void setCorrectImageViewVisible(int position) {
         if (position < 1 || position > 4) {

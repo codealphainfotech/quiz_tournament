@@ -38,6 +38,15 @@
             android:textColor="@color/blue"
             android:textStyle="bold"
             android:layout_centerInParent="true" />
+
+        <ImageView
+            android:id="@+id/logoutIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:contentDescription="Logout"
+            android:src="@drawable/baseline_logout_24" />
     </RelativeLayout>
 
 
