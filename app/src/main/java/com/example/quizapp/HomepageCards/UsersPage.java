@@ -33,7 +33,6 @@ public class UsersPage extends AppCompatActivity {
 
     private ActivityUsersPageBinding binding;
 
-
     List<UserModel> users ;
 
     @Override
@@ -86,9 +85,9 @@ public class UsersPage extends AppCompatActivity {
     }
 
     void initRv(){
-        UserListADapter aDapter = new UserListADapter((ArrayList<UserModel>) users, this);
+        UserListADapter adapter = new UserListADapter((ArrayList<UserModel>) users, this);
         binding.rvUsers.setLayoutManager(new LinearLayoutManager(this));
-        binding.rvUsers.setAdapter(aDapter);
+        binding.rvUsers.setAdapter(adapter);
     }
 
     void showProgree(boolean show){

@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/white"
     android:orientation="vertical"
-    tools:context=".CreateNewTurnamenr">
+    tools:context=".tournament.CreateNewTournament">
 
     <Space
         android:layout_width="match_parent"
@@ -32,10 +32,10 @@
             android:layout_centerVertical="true" />
 
         <TextView
-            android:id="@+id/titleText"
+            android:id="@+id/tvTitleBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Create new turnament"
+            android:text="Create Tournament"
             android:textSize="25sp"
             android:textColor="@color/blue"
             android:textStyle="bold"
@@ -61,12 +61,13 @@
             android:background="@drawable/edit_text_border">
 
             <EditText
+                android:id="@+id/etQuizTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColorHint="@color/black"
                 android:textColor="@color/black"
                 android:background="@null"
-                android:hint="Enter your name"
+                android:hint="Enter Quiz Title"
                 android:inputType="textEmailAddress"
                 android:padding="12dp" />
         </LinearLayout>
@@ -86,7 +87,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="Catagory :"
+                android:text="Category :"
                 android:padding="5dp"
                 android:textColor="@color/black"
                 android:textStyle="bold"
@@ -103,8 +104,6 @@
         <Space
             android:layout_width="match_parent"
             android:layout_height="15dp"/>
-
-
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -125,15 +124,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="15dp" />
-        </LinearLayout>
 
+        </LinearLayout>
 
         <Space
             android:layout_width="match_parent"
             android:layout_height="30dp"/>
-
-
-
 
         <TextView
             android:id="@+id/tvStartDateLabel"
@@ -152,7 +148,7 @@
 
             <TextView
 
-                android:id="@+id/idTVSelectedDate"
+                android:id="@+id/tvStartDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -164,7 +160,7 @@
             </TextView>
 
             <ImageView
-                android:id="@+id/idBtnPickDate"
+                android:id="@+id/ivBtnStartDate"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="12"
@@ -189,15 +185,13 @@
             android:textSize="18sp"
             android:layout_marginBottom="8dp" />
 
-
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/idTVSelectedDate2"
+                android:id="@+id/tvEndDate"
 
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -210,7 +204,7 @@
             </TextView>
 
             <ImageView
-                android:id="@+id/idBtnPickDate2"
+                android:id="@+id/ivBtnEndDate"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="12"
@@ -223,33 +217,34 @@
 
     </LinearLayout>
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="280dp">
+    <RelativeLayout
 
-    </Space>
-
-    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp">
         <Button
-            android:id="@+id/Btn_CreateTurnament"
+            android:id="@+id/btSave"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/blue"
             android:padding="15dp"
             android:text="Save"
+            android:layout_centerInParent="true"
             android:textColor="@color/white"
             android:textSize="20dp">
 
         </Button>
 
-    </LinearLayout>
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:layout_width="56dp"
+            android:indeterminate="true"
+            android:layout_gravity="center"
+            android:layout_centerInParent="true"
+            android:visibility="gone"
+            android:id="@+id/progress_circularView"
+            android:layout_height="56dp"/>
 
 
-
-
-
+    </RelativeLayout>
 
 </LinearLayout>

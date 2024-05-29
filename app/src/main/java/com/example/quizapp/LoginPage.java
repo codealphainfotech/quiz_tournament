@@ -16,12 +16,20 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.quizapp.HomepageCards.TournamentPage;
+import com.example.quizapp.contoller.OnGetUserListner;
+import com.example.quizapp.contoller.UserController;
+import com.example.quizapp.customer.UserTournamentPage;
 import com.example.quizapp.databinding.ActivityLoginPageBinding;
+import com.example.quizapp.models.UserModel;
+import com.example.quizapp.utils.SharedPrefsHelper;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.util.Objects;
 
 public class LoginPage extends AppCompatActivity {
 
@@ -31,6 +39,11 @@ public class LoginPage extends AppCompatActivity {
     private FirebaseAuth mAuth;
 
     private ActivityLoginPageBinding binding;
+
+    private UserController userController;
+
+    private SharedPrefsHelper sharedPrefsHelper;
+
 
 
 
@@ -46,6 +59,10 @@ public class LoginPage extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         mAuth = FirebaseAuth.getInstance();
+
+        userController = new UserController();
+
+        sharedPrefsHelper = new SharedPrefsHelper(this);
 
 
         BtnSignup = findViewById(R.id.btn_signup);
@@ -86,10 +103,32 @@ public class LoginPage extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
+                            FirebaseUser currentUser = mAuth.getCurrentUser();
 
-                            Intent mainIntent = new Intent(LoginPage.this, HomepageList.class);
-                            LoginPage.this.startActivity(mainIntent);
+                            userController.getUserById(currentUser.getUid(), new OnGetUserListner() {
+                                @Override
+                                public void onGetUserSuccess(UserModel user) {
+                                    Log.e(TAG, "onGetUserSuccess: role :" + user.getRole() );
+                                    sharedPrefsHelper.saveUserRole(user.getRole());
+                                    Intent mainIntent;
+                                    if (Objects.equals(user.getRole(), "admin")){
+                                        mainIntent = new Intent(LoginPage.this, HomepageList.class);
+                                    }else{
+                                        mainIntent = new Intent(LoginPage.this, UserTournamentPage.class);
+                                    }
+                                    LoginPage.this.startActivity(mainIntent);
+                                    finish();
+                                }
+
+                                @Override
+                                public void onGetUserError(String message) {
+
+                                }
+                            });
+
+
+
+
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
