@@ -55,7 +55,7 @@
         <activity
             android:name=".HomepageList"
             android:exported="false" />
-      
+
         <activity
             android:name=".SignUpPage"
             android:exported="false" />

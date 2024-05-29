@@ -1,6 +1,5 @@
 package com.example.quizapp.customer;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,15 +14,9 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.quizapp.R;
-import com.example.quizapp.contoller.OnFailed;
-import com.example.quizapp.contoller.OnSuccessListner;
 import com.example.quizapp.contoller.QuizConroller;
-import com.example.quizapp.databinding.ActivityQuestionPageBinding;
 import com.example.quizapp.databinding.ActivityUserQuestionPageBinding;
 import com.example.quizapp.models.TournamentModel;
-import com.example.quizapp.tournament.CreateNewTournament;
-import com.example.quizapp.utils.ReusableAlertDialog;
-import com.example.quizapp.utils.ToastUtils;
 
 public class UserTournamentDetailsPage extends AppCompatActivity {
 
