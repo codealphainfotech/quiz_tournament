@@ -96,6 +96,8 @@ public class UserQuizPage extends AppCompatActivity {
             }
         }
 
+
+
         backIcon = findViewById(R.id.backIcon);
 
         backIcon.setOnClickListener(new View.OnClickListener() {

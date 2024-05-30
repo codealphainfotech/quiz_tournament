@@ -2,6 +2,7 @@ package com.example.quizapp.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,24 +10,27 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.quizapp.R;
 import com.example.quizapp.customer.UserTournamentDetailsPage;
 import com.example.quizapp.databinding.CardQuizItemBinding;
 import com.example.quizapp.models.TournamentModel;
 import com.example.quizapp.tournament.TournamentDetailsPage;
+import com.google.android.material.tabs.TabLayout;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class TournamentListAdapter  extends RecyclerView.Adapter<TournamentListAdapter.ViewHolder> {
 
-    List<TournamentModel> list;
+    List<TournamentModel> mlist;
     Context context;
 
     boolean isAdmin ;
 
     public TournamentListAdapter(Context context, List<TournamentModel> tournamentModels, boolean isAdmin) {
-        this.list = tournamentModels;
+        this.mlist = tournamentModels;
         this.context = context;
         this.isAdmin = isAdmin;
     }
@@ -34,13 +38,16 @@ public class TournamentListAdapter  extends RecyclerView.Adapter<TournamentListA
     @NonNull
     @Override
     public TournamentListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
         return new TournamentListAdapter.ViewHolder(CardQuizItemBinding.inflate(LayoutInflater.from(parent.getContext()),
                 parent, false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        TournamentModel tournamentModel = list.get(position);
+        TournamentModel tournamentModel = mlist.get(position);
+
+
         int index = position;
         holder.binding.tvTitle.setText(tournamentModel.getTitle());
         String dateSting = "Date : " + tournamentModel.getStartDate() + " to " + tournamentModel.getEndDate();
@@ -48,6 +55,16 @@ public class TournamentListAdapter  extends RecyclerView.Adapter<TournamentListA
 
         try {
             holder.binding.tvStatus.setText(getTournamentTag(tournamentModel));
+
+            if(getTournamentTag(tournamentModel).equals("Upcoming")){
+                Log.d("hjhsjbjh","this is a upcoming ");
+            }
+            else if(getTournamentTag(tournamentModel).equals("Current")){
+                Log.d("hjhsjbjh","this is a Current ");
+            }
+            else {
+                Log.d("hjhsjbjh","this is a Old ");
+            }
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
@@ -74,19 +91,30 @@ public class TournamentListAdapter  extends RecyclerView.Adapter<TournamentListA
         });
 
     }
+     public void updateList(List<TournamentModel> list){
+        mlist = list;
+        notifyDataSetChanged();
+     }
+
+
+
 
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return mlist.size();
     }
 
     public class ViewHolder  extends RecyclerView.ViewHolder{
 
         CardQuizItemBinding binding;
+        TabLayout tabLayout;
         public ViewHolder(@NonNull CardQuizItemBinding itemView) {
             super(itemView.getRoot());
             binding = itemView;
+
+
+
 
         }
     }

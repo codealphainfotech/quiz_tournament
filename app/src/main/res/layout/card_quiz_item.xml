@@ -60,12 +60,12 @@
             </LinearLayout>
 
             <ImageView
-                android:layout_margin="4dp"
-                android:layout_gravity="center"
                 android:layout_width="36dp"
-                android:layout_height="36dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:layout_margin="4dp"
                 android:scaleType="fitXY"
-                android:src="@drawable/next_arrow"/>
+                android:src="@drawable/next_arrow" />
 
         </LinearLayout>
 
@@ -75,6 +75,7 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:id="@+id/tvStatus"
+            android:textColor="@color/blue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14sp"

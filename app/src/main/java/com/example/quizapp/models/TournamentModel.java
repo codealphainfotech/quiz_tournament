@@ -105,16 +105,18 @@ public class TournamentModel {
     }
 
     public String getTag(Date currentDate) throws ParseException {
-         SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy");
-        Date _startDate = DATE_FORMAT.parse(this.startDate);
-        Date _endDate = DATE_FORMAT.parse(this.endDate);
-        if (_startDate.before(currentDate) && _endDate.after(currentDate)) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        Date start = dateFormat.parse(this.startDate);
+        Date end = dateFormat.parse(this.endDate);
+
+        if (start.before(currentDate) && end.after(currentDate)) {
             return "Current"; // User can participate
-        } else if (_endDate.before(currentDate)) {
+        } else if (end.before(currentDate)) {
             return "Old";
         } else {
             return "Upcoming";
         }
     }
+
 
 }
