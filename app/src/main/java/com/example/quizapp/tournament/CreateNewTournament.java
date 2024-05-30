@@ -269,7 +269,10 @@ public class CreateNewTournament extends AppCompatActivity {
 
         public void onDateSet(DatePicker view, int year, int month, int day) {
             // Do something with the date chosen by the user
-            binding.tvStartDate.setText(day + "/" + month  + "/" + year);
+           // binding.tvStartDate.setText(day + "/" + month  + "/" + year);
+            // Increment the month value by 1 to correct the displayed month
+            int displayMonth = month + 1;
+            binding.tvStartDate.setText(day + "/" + displayMonth + "/" + year);
         }
 
     }
@@ -294,7 +297,9 @@ public class CreateNewTournament extends AppCompatActivity {
         }
         public void onDateSet(DatePicker view, int year, int month, int day) {
 
-            binding.tvEndDate.setText(day + "/" + month  + "/" + year);
+            //binding.tvEndDate.setText(day + "/" + month  + "/" + year);
+            int displayMonth = month + 1;
+            binding.tvEndDate.setText(day + "/" + displayMonth + "/" + year);
         }
     }
 

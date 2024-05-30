@@ -12,9 +12,11 @@ import com.android.volley.toolbox.Volley;
 import com.example.quizapp.adapters.TournamentListAdapter;
 import com.example.quizapp.models.ApiResponse;
 import com.example.quizapp.models.CategoryModel;
+import com.example.quizapp.models.QuizLikeModel;
 import com.example.quizapp.models.QuizPlayedModel;
 import com.example.quizapp.models.TournamentModel;
 import com.example.quizapp.models.UserModel;
+import com.example.quizapp.utils.HelperUtils;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
@@ -29,6 +31,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,6 +42,8 @@ public class QuizConroller {
     private String quiz_path = "all_quiz";
 
     private  String played_quiz_path = "quizPlayedRecords";
+
+    private  String quiz_like_path = "quizLikes";
 
     private TournamentListAdapter adapter;
     public QuizConroller() {
@@ -295,6 +300,56 @@ public class QuizConroller {
                         }
                     }
                     listener.onGetPlayedQuizModels(playedQuizModels);
+                })
+                .addOnFailureListener(e -> listener.onGetError(e.getMessage()));
+    }
+
+    //function to add like and dis like
+    public void addLikeDislikeEntry(String tournamentId, String userId, String type, OnAddLikeDislikeListener listener) {
+        // Generate a unique ID for the entry (optional)
+        String id = HelperUtils.generateUniqueID();
+
+        // Create a QuizLikeModel object
+        QuizLikeModel likeDislikeEntry = new QuizLikeModel(id, tournamentId, userId, type, new Date());
+
+        // Add the entry to Fires tore
+        db.collection(quiz_like_path) // Replace "quizLikes" with your actual collection name
+                .add(likeDislikeEntry)
+                .addOnSuccessListener(documentReference -> listener.onAddLikeDislikeSuccess())
+                .addOnFailureListener(e -> listener.onAddLikeDislikeError(e.getMessage()));
+    }
+
+    public void getQuizLikeDislikeByTournamentIdAndUserId( String tournamentId, String userId, OnGetLikeDislikeListListener listener) {
+        db.collection(quiz_like_path) // Replace "quizLikes" with your actual collection name
+                .whereEqualTo("tournamentId", tournamentId)
+                .whereEqualTo("userId", userId)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    List<QuizLikeModel> likeDislikeList = new ArrayList<>();
+                    for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                        QuizLikeModel likeDislikeModel = document.toObject(QuizLikeModel.class);
+                        if (likeDislikeModel != null) {
+                            likeDislikeList.add(likeDislikeModel);
+                        }
+                    }
+                    listener.onGetLikeDislikeList(likeDislikeList);
+                })
+                .addOnFailureListener(e -> listener.onGetError(e.getMessage()));
+    }
+
+    public void getQuizLikeByTournamentId( String tournamentId,OnGetLikeDislikeListListener listener) {
+        db.collection(quiz_like_path) // Replace "quizLikes" with your actual collection name
+                .whereEqualTo("tournamentId", tournamentId)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    List<QuizLikeModel> likeDislikeList = new ArrayList<>();
+                    for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                        QuizLikeModel likeDislikeModel = document.toObject(QuizLikeModel.class);
+                        if (likeDislikeModel != null) {
+                            likeDislikeList.add(likeDislikeModel);
+                        }
+                    }
+                    listener.onGetLikeDislikeList(likeDislikeList);
                 })
                 .addOnFailureListener(e -> listener.onGetError(e.getMessage()));
     }

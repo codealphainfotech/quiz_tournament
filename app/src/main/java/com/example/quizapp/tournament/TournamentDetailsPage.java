@@ -17,10 +17,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.quizapp.adapters.UserListWithScoreAdapter;
 import com.example.quizapp.contoller.OnFailed;
+import com.example.quizapp.contoller.OnGetLikeDislikeListListener;
 import com.example.quizapp.contoller.OnGetPlayedQuizModelsListener;
 import com.example.quizapp.contoller.OnSuccessListner;
 import com.example.quizapp.contoller.QuizConroller;
 import com.example.quizapp.databinding.ActivityQuestionPageBinding;
+import com.example.quizapp.models.QuizLikeModel;
 import com.example.quizapp.models.QuizPlayedModel;
 import com.example.quizapp.models.TournamentModel;
 import com.example.quizapp.utils.ReusableAlertDialog;
@@ -45,6 +47,12 @@ public class TournamentDetailsPage extends AppCompatActivity {
     private UserListWithScoreAdapter adapter;
 
     ArrayList<QuizPlayedModel> quizPlayedModelsList = new ArrayList<>();
+
+    private QuizLikeModel quizLikeModel;
+
+    private  int totalLikeCount = 0;
+    private  int totalDislikeCount = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,6 +121,39 @@ public class TournamentDetailsPage extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         getUserPlayedData();
+        getTotalLikeCount();
+    }
+
+
+    void getTotalLikeCount(){
+        quizConroller.getQuizLikeByTournamentId(tournamentModel.getId(), new OnGetLikeDislikeListListener() {
+            @Override
+            public void onGetLikeDislikeList(List<QuizLikeModel> likeDislikeList) {
+                Log.e(TAG, "onGetLikeDislikeList: "+ likeDislikeList.toString() );
+                if (!likeDislikeList.isEmpty()){
+                    for (QuizLikeModel q: likeDislikeList) {
+                        if (q.getType().equals("like")){
+                            totalLikeCount += 1;
+                        }else if (q.getType().equals("dislike")){
+                            totalDislikeCount += 1;
+                        }
+                    }
+
+                    updateLikeUi();
+                }
+            }
+
+            @Override
+            public void onGetError(String message) {
+
+            }
+        });
+    }
+
+
+    void updateLikeUi(){
+        binding.tvLikeCount.setText(String.format("%d", totalLikeCount));
+        binding.tvDislikeCount.setText(String.format("%d", totalDislikeCount));
     }
 
     void setRv() {

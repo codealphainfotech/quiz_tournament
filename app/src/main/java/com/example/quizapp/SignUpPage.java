@@ -14,8 +14,10 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.quizapp.customer.UserTournamentPage;
 import com.example.quizapp.databinding.ActivitySignUpPageBinding;
 import com.example.quizapp.models.UserModel;
+import com.example.quizapp.utils.SharedPrefsHelper;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -26,6 +28,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.Objects;
+
 public class SignUpPage extends AppCompatActivity {
 
     ImageView BackButton;
@@ -35,7 +39,10 @@ public class SignUpPage extends AppCompatActivity {
 
     FirebaseFirestore db ;
 
- private ActivitySignUpPageBinding binding;
+    private SharedPrefsHelper sharedPrefsHelper;
+
+
+    private ActivitySignUpPageBinding binding;
     @Override
     protected void onStart() {
         super.onStart();
@@ -57,6 +64,7 @@ public class SignUpPage extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
        db = FirebaseFirestore.getInstance();
+       sharedPrefsHelper = new SharedPrefsHelper(this);
 
 
 
@@ -111,6 +119,16 @@ public class SignUpPage extends AppCompatActivity {
                                             public void onSuccess(Void aVoid) {
                                                 showProgree(false);
                                                 Log.e(TAG, "DocumentSnapshot successfully written!");
+                                                sharedPrefsHelper.saveUserRole(myUser.getRole());
+                                                sharedPrefsHelper.saveUserModelToSharedPref(myUser);
+                                                Intent mainIntent;
+                                                if (Objects.equals(myUser.getRole(), "admin")){
+                                                    mainIntent = new Intent(SignUpPage.this, HomepageList.class);
+                                                }else{
+                                                    mainIntent = new Intent(SignUpPage.this, UserTournamentPage.class);
+                                                }
+                                                SignUpPage.this.startActivity(mainIntent);
+                                                finish();
                                             }
                                         })
                                         .addOnFailureListener(new OnFailureListener() {

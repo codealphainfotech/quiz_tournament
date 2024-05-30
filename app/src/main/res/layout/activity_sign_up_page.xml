@@ -27,7 +27,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingStart="30dp"
-        android:paddingTop="70dp"
         android:text="Sign Up"
         android:textColor="@color/blue"
         android:textSize="40sp"
@@ -41,7 +40,6 @@
         android:textStyle="normal"
         android:textSize="20sp"
         android:paddingTop="2dp"
-        android:paddingBottom="80dp"
         android:paddingStart="30dp" />
 
     <ScrollView
@@ -53,7 +51,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingBottom="20dp">
+           >
 
             <EditText
                 android:id="@+id/etName"
@@ -117,10 +115,6 @@
         </LinearLayout>
 
     </ScrollView>
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="60dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"

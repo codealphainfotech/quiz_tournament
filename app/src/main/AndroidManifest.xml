@@ -21,6 +21,11 @@
             android:theme="@style/Theme.QuizApp" />
 
         <activity
+            android:name=".ForgotPage"
+            android:exported="false"
+            android:theme="@style/Theme.QuizApp" />
+
+        <activity
             android:name=".customer.UserTournamentPage"
             android:exported="false"
             android:theme="@style/Theme.QuizApp" />

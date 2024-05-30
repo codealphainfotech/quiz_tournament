@@ -18,6 +18,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.quizapp.HomepageCards.TournamentPage;
 import com.example.quizapp.contoller.OnGetUserListner;
+import com.example.quizapp.contoller.OnSendPasswordResetListener;
 import com.example.quizapp.contoller.UserController;
 import com.example.quizapp.customer.UserTournamentPage;
 import com.example.quizapp.databinding.ActivityLoginPageBinding;
@@ -92,10 +93,20 @@ public class LoginPage extends AppCompatActivity {
         });
 
 
+        binding.tvForgot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent mainIntent = new Intent(LoginPage.this, ForgotPage.class);
+                LoginPage.this.startActivity(mainIntent);
+            }
+        });
+
+
     }
 
     private void signIn(String email, String password) {
         // [START sign_in_with_email]
+        showProgress(true);
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -108,6 +119,7 @@ public class LoginPage extends AppCompatActivity {
                             userController.getUserById(currentUser.getUid(), new OnGetUserListner() {
                                 @Override
                                 public void onGetUserSuccess(UserModel user) {
+                                    showProgress(false);
                                     Log.e(TAG, "onGetUserSuccess: role :" + user.getRole() );
                                     sharedPrefsHelper.saveUserRole(user.getRole());
                                     sharedPrefsHelper.saveUserModelToSharedPref(user);
@@ -117,13 +129,14 @@ public class LoginPage extends AppCompatActivity {
                                     }else{
                                         mainIntent = new Intent(LoginPage.this, UserTournamentPage.class);
                                     }
+
                                     LoginPage.this.startActivity(mainIntent);
                                     finish();
                                 }
 
                                 @Override
                                 public void onGetUserError(String message) {
-
+                                    showProgress(false);
                                 }
                             });
 
@@ -131,11 +144,11 @@ public class LoginPage extends AppCompatActivity {
 
 
                         } else {
+                            showProgress(false);
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
                             Toast.makeText(LoginPage.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
-
                         }
                     }
                 });
@@ -145,5 +158,27 @@ public class LoginPage extends AppCompatActivity {
     void  errorMsg(String msg){
         Toast.makeText(LoginPage.this, msg,
                 Toast.LENGTH_SHORT).show();
+    }
+
+    void showProgress(boolean show){
+        if (show){
+            binding.btnLogin.setVisibility(View.GONE);
+            binding.progressCircularView.setVisibility(View.VISIBLE);
+        }else {
+            binding.btnLogin.setVisibility(View.VISIBLE);
+            binding.progressCircularView.setVisibility(View.GONE);
+        }
+    }
+
+    public void sendPasswordResetEmail(FirebaseAuth auth, String email, OnSendPasswordResetListener listener) {
+
+        auth.sendPasswordResetEmail(email)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        listener.onPasswordResetSent();
+                    } else {
+                        listener.onSendPasswordResetError(task.getException().getMessage());
+                    }
+                });
     }
 }
