@@ -1,5 +1,6 @@
 package com.example.quizapp.models;
 
+import com.example.quizapp.utils.AppString;
 import com.google.gson.Gson;
 
 import java.text.ParseException;
@@ -110,7 +111,7 @@ public class TournamentModel {
         Date end = dateFormat.parse(this.endDate);
 
         if (start.before(currentDate) && end.after(currentDate)) {
-            return "Current"; // User can participate
+            return AppString.strOngoing; // User can participate
         } else if (end.before(currentDate)) {
             return "Old";
         } else {

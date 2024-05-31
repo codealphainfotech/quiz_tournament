@@ -56,15 +56,6 @@ public class TournamentListAdapter  extends RecyclerView.Adapter<TournamentListA
         try {
             holder.binding.tvStatus.setText(getTournamentTag(tournamentModel));
 
-            if(getTournamentTag(tournamentModel).equals("Upcoming")){
-                Log.d("hjhsjbjh","this is a upcoming ");
-            }
-            else if(getTournamentTag(tournamentModel).equals("Current")){
-                Log.d("hjhsjbjh","this is a Current ");
-            }
-            else {
-                Log.d("hjhsjbjh","this is a Old ");
-            }
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
@@ -95,10 +86,6 @@ public class TournamentListAdapter  extends RecyclerView.Adapter<TournamentListA
         mlist = list;
         notifyDataSetChanged();
      }
-
-
-
-
 
     @Override
     public int getItemCount() {

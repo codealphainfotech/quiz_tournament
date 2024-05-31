@@ -25,6 +25,7 @@ import com.example.quizapp.models.QuizLikeModel;
 import com.example.quizapp.models.QuizPlayedModel;
 import com.example.quizapp.models.TournamentModel;
 import com.example.quizapp.models.UserModel;
+import com.example.quizapp.utils.AppString;
 import com.example.quizapp.utils.HelperUtils;
 import com.example.quizapp.utils.ReusableAlertDialog;
 import com.example.quizapp.utils.SharedPrefsHelper;
@@ -139,41 +140,66 @@ public class UserTournamentDetailsPage extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                quizConroller.addLikeDislikeEntry(tournamentModel.getId(), userModel.getUserID(), "like", new OnAddLikeDislikeListener() {
-                    @Override
-                    public void onAddLikeDislikeSuccess() {
-                        changeLikeIcon(true);
-                        totalLikeCount++;
-                        updateLikeUi();
-                        binding.ivBtnDislike.setEnabled(false);
-                        binding.ivBtnLike.setEnabled(false);
-                    }
+//                if (isCurrent){
+//                    quizConroller.addLikeDislikeEntry(tournamentModel.getId(), userModel.getUserID(), "like", new OnAddLikeDislikeListener() {
+//                        @Override
+//                        public void onAddLikeDislikeSuccess() {
+//                            changeLikeIcon(true);
+//                            totalLikeCount++;
+//                            updateLikeUi();
+//                            binding.ivBtnDislike.setEnabled(false);
+//                            binding.ivBtnLike.setEnabled(false);
+//                        }
+//
+//                        @Override
+//                        public void onAddLikeDislikeError(String message) {
+//
+//                        }
+//                    });
+//                }else {
+//
+//                    String tag = binding.tvStatusLable.getText().toString();
+//                    ReusableAlertDialog.showConfirmationDialog(UserTournamentDetailsPage.this, "This event is " + tag + ".", "You Can Only Join or start Current Tournaments", new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int which) {
+//
+//                        }
+//                    });
+//                }
 
-                    @Override
-                    public void onAddLikeDislikeError(String message) {
-
-                    }
-                });
             }
         });
 
         binding.ivBtnDislike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                quizConroller.addLikeDislikeEntry(tournamentModel.getId(), userModel.getUserID(), "dislike", new OnAddLikeDislikeListener() {
-                    @Override
-                    public void onAddLikeDislikeSuccess() {
-                        changeDislikeIcon(true);
-                        totalDislikeCount++;
-                        updateLikeUi();
-                        binding.ivBtnLike.setEnabled(false);
-                    }
 
-                    @Override
-                    public void onAddLikeDislikeError(String message) {
+//                if (isCurrent){
+//                    quizConroller.addLikeDislikeEntry(tournamentModel.getId(), userModel.getUserID(), "dislike", new OnAddLikeDislikeListener() {
+//                        @Override
+//                        public void onAddLikeDislikeSuccess() {
+//                            changeDislikeIcon(true);
+//                            totalDislikeCount++;
+//                            updateLikeUi();
+//                            binding.ivBtnLike.setEnabled(false);
+//                        }
+//
+//                        @Override
+//                        public void onAddLikeDislikeError(String message) {
+//
+//                        }
+//                    });
+//                }else {
+//
+//                    String tag = binding.tvStatusLable.getText().toString();
+//                    ReusableAlertDialog.showConfirmationDialog(UserTournamentDetailsPage.this, "This event is " + tag + ".", "You Can Only Join or start Current Tournaments", new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int which) {
+//
+//                        }
+//                    });
+//                }
 
-                    }
-                });
             }
         });
 
@@ -329,7 +355,7 @@ public class UserTournamentDetailsPage extends AppCompatActivity {
     private void getTournamentTag(TournamentModel tournament) throws ParseException {
         String tag = tournament.getTag(new Date());
         binding.tvStatusLable.setText(tag);
-        if (tag.equals("Current")) {
+        if (tag.equals(AppString.strOngoing)) {
             isCurrent = true;
 
         } else {

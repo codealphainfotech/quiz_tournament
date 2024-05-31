@@ -1,5 +1,6 @@
 package com.example.quizapp.customer;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,6 +15,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.quizapp.R;
+import com.example.quizapp.contoller.OnAddLikeDislikeListener;
 import com.example.quizapp.contoller.OnSaveRecordListener;
 import com.example.quizapp.contoller.QuizConroller;
 import com.example.quizapp.contoller.VolleyCallback;
@@ -24,6 +26,7 @@ import com.example.quizapp.models.QuizPlayedModel;
 import com.example.quizapp.models.TournamentModel;
 import com.example.quizapp.models.UserModel;
 import com.example.quizapp.utils.HelperUtils;
+import com.example.quizapp.utils.ReusableAlertDialog;
 import com.example.quizapp.utils.SharedPrefsHelper;
 import com.example.quizapp.utils.ToastUtils;
 
@@ -42,22 +45,23 @@ public class UserQuizPage extends AppCompatActivity {
     private ActivityUserQuizPageBinding binding;
     private QuizConroller quizConroller;
 
-    private  int currentQuiz = 0;
-    private  String tournamentID = "";
-    private  TournamentModel tournamentModel;
+    private int currentQuiz = 0;
+    private String tournamentID = "";
+    private TournamentModel tournamentModel;
 
     private List<ApiResponse.Result> quizList = new ArrayList<>();
-    private  List<String> ansList = new ArrayList<>();
+    private List<String> ansList = new ArrayList<>();
 
     private SharedPrefsHelper sharedPrefsHelper;
 
 
-    private  int score = 0;
+    private int score = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        binding  =  ActivityUserQuizPageBinding.inflate(getLayoutInflater());
+        binding = ActivityUserQuizPageBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         quizConroller = new QuizConroller();
@@ -65,37 +69,36 @@ public class UserQuizPage extends AppCompatActivity {
         sharedPrefsHelper = new SharedPrefsHelper(this);
 
         Intent i = getIntent();
-        if (i.getExtras() != null){
+        if (i.getExtras() != null) {
             tournamentID = i.getStringExtra("id");
-            Log.e(TAG, "onCreate: id :" + tournamentID );
+            Log.e(TAG, "onCreate: id :" + tournamentID);
             Log.e(TAG, "onCreate: " + i.getStringExtra("model"));
 
             tournamentModel = quizConroller.decodeTournamentFromJson(i.getStringExtra("model"));
 
-            if (tournamentModel != null){
-                String url =" https://opentdb.com/api.php?amount=10";
-                url+="&category=" + tournamentModel.getCategoryId();
-                if (!tournamentModel.getDifficulty().equals("Any Difficulty")){
-                    url += "&difficulty="  +tournamentModel.getDifficulty().toLowerCase();
+            if (tournamentModel != null) {
+                String url = " https://opentdb.com/api.php?amount=10";
+                url += "&category=" + tournamentModel.getCategoryId();
+                if (!tournamentModel.getDifficulty().equals("Any Difficulty")) {
+                    url += "&difficulty=" + tournamentModel.getDifficulty().toLowerCase();
                 }
 
                 showProgress(true);
-               quizConroller.getQuizQuestions(this, url, new VolleyCallback() {
-                   @Override
-                   public void onSuccess(List<ApiResponse.Result> results) {
-                       showProgress(false);
-                       quizList = results;
-                       setData();
-                   }
+                quizConroller.getQuizQuestions(this, url, new VolleyCallback() {
+                    @Override
+                    public void onSuccess(List<ApiResponse.Result> results) {
+                        showProgress(false);
+                        quizList = results;
+                        setData();
+                    }
 
-                   @Override
-                   public void onError(String message) {
-                       showProgress(false);
-                   }
-               });
+                    @Override
+                    public void onError(String message) {
+                        showProgress(false);
+                    }
+                });
             }
         }
-
 
 
         backIcon = findViewById(R.id.backIcon);
@@ -110,14 +113,14 @@ public class UserQuizPage extends AppCompatActivity {
         binding.lvBtnOPT1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checkRightAns(binding.tvOPT1.getText().toString(), 1 );
+                checkRightAns(binding.tvOPT1.getText().toString(), 1);
             }
         });
 
         binding.lvBtnOPT2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checkRightAns(binding.tvOPT2.getText().toString(), 2 );
+                checkRightAns(binding.tvOPT2.getText().toString(), 2);
 
             }
         });
@@ -125,7 +128,7 @@ public class UserQuizPage extends AppCompatActivity {
         binding.lvBtnOPT3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checkRightAns(binding.tvOPT3.getText().toString(), 3 );
+                checkRightAns(binding.tvOPT3.getText().toString(), 3);
 
             }
         });
@@ -133,7 +136,7 @@ public class UserQuizPage extends AppCompatActivity {
         binding.lvBtnOPT4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checkRightAns(binding.tvOPT4.getText().toString(), 4 );
+                checkRightAns(binding.tvOPT4.getText().toString(), 4);
 
             }
         });
@@ -145,18 +148,75 @@ public class UserQuizPage extends AppCompatActivity {
             }
         });
 
-        binding.tvQueRightCount.setText(String.format("Right Ans : %d / 10", score ));
+        binding.tvQueRightCount.setText(String.format("Right Ans : %d / 10", score));
 
         binding.btnFinish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               showGameOverView(true);
+                showGameOverView(true);
+            }
+        });
+
+        binding.ivBtnLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                quizConroller.addLikeDislikeEntry(tournamentModel.getId(), sharedPrefsHelper.getUserModelFromSharedPref().getUserID(), "like", new OnAddLikeDislikeListener() {
+                    @Override
+                    public void onAddLikeDislikeSuccess() {
+                        changeLikeIcon(true);
+                        binding.ivBtnDislike.setEnabled(false);
+                        binding.ivBtnLike.setEnabled(false);
+                    }
+
+                    @Override
+                    public void onAddLikeDislikeError(String message) {
+
+                    }
+                });
+
+            }
+        });
+
+        binding.ivBtnDislike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                quizConroller.addLikeDislikeEntry(tournamentModel.getId(), sharedPrefsHelper.getUserModelFromSharedPref().getUserID(), "dislike", new OnAddLikeDislikeListener() {
+                    @Override
+                    public void onAddLikeDislikeSuccess() {
+                        changeDislikeIcon(true);
+                        binding.ivBtnLike.setEnabled(false);
+                    }
+
+                    @Override
+                    public void onAddLikeDislikeError(String message) {
+
+                    }
+                });
+
+
             }
         });
     }
 
-    private void checkRightAns(String ans , int index){
-        ApiResponse.Result que =  quizList.get(currentQuiz);
+    void changeLikeIcon(boolean isLike) {
+        if (isLike) {
+            binding.ivBtnLike.setImageResource(R.drawable.like_fill); // Set liked image
+        } else {
+            binding.ivBtnLike.setImageResource(R.drawable.like); // Set unliked image
+        }
+    }
+
+    void changeDislikeIcon(boolean isLike) {
+        if (isLike) {
+            binding.ivBtnDislike.setImageResource(R.drawable.dislike_fill); // Set liked image
+        } else {
+            binding.ivBtnDislike.setImageResource(R.drawable.dislike); // Set unliked image
+        }
+    }
+
+    private void checkRightAns(String ans, int index) {
+        ApiResponse.Result que = quizList.get(currentQuiz);
 
         //setting right ans
         binding.tvRightAns.setText(String.format("Correct Ans : %s", que.getCorrectAnswer()));
@@ -164,26 +224,26 @@ public class UserQuizPage extends AppCompatActivity {
 
         showAnsView(true);
 
-        if (que.getCorrectAnswer().equals(ans)){
+        if (que.getCorrectAnswer().equals(ans)) {
             ToastUtils.successToast(UserQuizPage.this, "Correct Answer");
             updateScore();
-        }else {
+        } else {
             ToastUtils.errorToast(UserQuizPage.this, "Your Answer is Wrong");
         }
-        int pos =  ansList.indexOf(que.getCorrectAnswer());
+        int pos = ansList.indexOf(que.getCorrectAnswer());
         Log.e(TAG, "checkRightAns: pos " + pos);
-        if (pos != -1){
-            setCorrectImageViewVisible( pos + 1 );
+        if (pos != -1) {
+            setCorrectImageViewVisible(pos + 1);
         }
         currentQuiz++;
 
-        if (currentQuiz < 10){
+        if (currentQuiz < 10) {
             showNextBtn(true);
-        }else {
+        } else {
             showFinish(true);
             String pId = HelperUtils.generateUniqueID();
             UserModel user = sharedPrefsHelper.getUserModelFromSharedPref();
-            QuizPlayedModel quizPlayedModel = new QuizPlayedModel(pId, tournamentModel,user,new Date(), score);
+            QuizPlayedModel quizPlayedModel = new QuizPlayedModel(pId, tournamentModel, user, new Date(), score);
             quizConroller.saveQuizPlayedRecord(quizPlayedModel, new OnSaveRecordListener() {
                 @Override
                 public void onSaveSuccess(String message) {
@@ -200,46 +260,45 @@ public class UserQuizPage extends AppCompatActivity {
 
     }
 
-    private void updateScore(){
-        score +=1;
-        binding.tvQueRightCount.setText(String.format("Right Ans : %d / 10", score ));
-        binding.tvGameOverScore.setText(String.format("Right Ans : %d / 10", score ));
+    private void updateScore() {
+        score += 1;
+        binding.tvQueRightCount.setText(String.format("Right Ans : %d / 10", score));
+        binding.tvGameOverScore.setText(String.format("Right Ans : %d / 10", score));
         binding.tvGameOverTitle.setText(tournamentModel.getTitle());
 
     }
 
 
-    private void moveToNext(){
+    private void moveToNext() {
         showNextBtn(false);
-        if (currentQuiz < 10){
+        if (currentQuiz < 10) {
             setData();
-        }
-        else {
+        } else {
             showFinish(true);
             ToastUtils.successToast(UserQuizPage.this, "Quiz Finished");
         }
     }
 
-    void setData(){
+    void setData() {
         //reset ui
         resetAnsPanel();
         showNextBtn(false);
 
-        binding.tvQueInfoCount.setText(String.format("Question : %d / 10", currentQuiz + 1 ));
+        binding.tvQueInfoCount.setText(String.format("Question : %d / 10", currentQuiz + 1));
 
-        if (!quizList.isEmpty()){
-            ApiResponse.Result que =  quizList.get(currentQuiz);
-            binding.tvQuizCount.setText(String.format("Que No : %d", currentQuiz + 1 ));
+        if (!quizList.isEmpty()) {
+            ApiResponse.Result que = quizList.get(currentQuiz);
+            binding.tvQuizCount.setText(String.format("Que No : %d", currentQuiz + 1));
             binding.tvQuizTitle.setText(que.getQuestion());
 
             ansList = que.getIncorrectAnswers();
             ansList.add(que.getCorrectAnswer());
             ansList = shuffleAnswers(ansList);
 
-            if (que.getType().equals("multiple")){
+            if (que.getType().equals("multiple")) {
                 setAnsUi();
 
-            }else {
+            } else {
                 setAnsUiOption2();
             }
         }
@@ -247,7 +306,7 @@ public class UserQuizPage extends AppCompatActivity {
 
     }
 
-    void resetAnsPanel(){
+    void resetAnsPanel() {
         binding.tvOPT1.setText("");
         binding.tvOPT2.setText("");
         binding.tvOPT3.setText("");
@@ -261,7 +320,7 @@ public class UserQuizPage extends AppCompatActivity {
         showAnsView(false);
     }
 
-    public void setAnsUi(){
+    public void setAnsUi() {
 
         binding.tvOPT1.setText(ansList.get(0));
         binding.tvOPT2.setText(ansList.get(1));
@@ -272,35 +331,35 @@ public class UserQuizPage extends AppCompatActivity {
 
     }
 
-    public void setAnsUiOption2(){
+    public void setAnsUiOption2() {
         binding.tvOPT1.setText(ansList.get(0));
         binding.tvOPT2.setText(ansList.get(1));
         binding.lvBtnOPT3.setVisibility(View.GONE);
         binding.lvBtnOPT4.setVisibility(View.GONE);
     }
 
-    public void showNextBtn(boolean isShow){
-        if (isShow){
+    public void showNextBtn(boolean isShow) {
+        if (isShow) {
             binding.btNext.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             binding.btNext.setVisibility(View.GONE);
         }
     }
 
-    public void showFinish(boolean isShow){
-        if (isShow){
+    public void showFinish(boolean isShow) {
+        if (isShow) {
             binding.btnFinish.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             binding.btnFinish.setVisibility(View.GONE);
         }
     }
 
-    void showGameOverView(boolean isShow){
-        if (isShow){
+    void showGameOverView(boolean isShow) {
+        if (isShow) {
             binding.btnFinish.setVisibility(View.GONE);
             binding.lvQuizView.setVisibility(View.GONE);
             binding.lvGameOverView.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             binding.lvGameOverView.setVisibility(View.GONE);
         }
     }
@@ -339,21 +398,21 @@ public class UserQuizPage extends AppCompatActivity {
     }
 
 
-    void showAnsView(boolean show){
-        if (show){
+    void showAnsView(boolean show) {
+        if (show) {
             binding.tvYourAns.setVisibility(View.VISIBLE);
             binding.tvRightAns.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             binding.tvYourAns.setVisibility(View.GONE);
             binding.tvRightAns.setVisibility(View.GONE);
         }
     }
 
-    void showProgress(boolean show){
-        if (show){
+    void showProgress(boolean show) {
+        if (show) {
             binding.lvQuizView.setVisibility(View.GONE);
             binding.progressCircularView.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             binding.lvQuizView.setVisibility(View.VISIBLE);
             binding.progressCircularView.setVisibility(View.GONE);
         }

@@ -49,6 +49,12 @@
             android:src="@drawable/baseline_logout_24" />
     </RelativeLayout>
 
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:tabGravity="fill"
+        app:tabMode="fixed" />
 
 
     <RelativeLayout

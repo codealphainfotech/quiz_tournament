@@ -354,4 +354,23 @@ public class QuizConroller {
                 .addOnFailureListener(e -> listener.onGetError(e.getMessage()));
     }
 
+
+    //function to get participated Quiz list
+    public void getQuizPlayedModelsByUserId( String userId, OnGetPlayedQuizModelsListener listener) {
+        db.collection(played_quiz_path)
+                .whereEqualTo("userModel.userID", userId)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    List<QuizPlayedModel> playedQuizModels = new ArrayList<>();
+                    for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                        QuizPlayedModel playedQuizModel = document.toObject(QuizPlayedModel.class);
+                        if (playedQuizModel != null) {
+                            playedQuizModels.add(playedQuizModel);
+                        }
+                    }
+                    listener.onGetPlayedQuizModels(playedQuizModels);
+                })
+                .addOnFailureListener(e -> listener.onGetError(e.getMessage()));
+    }
+
 }

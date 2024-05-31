@@ -20,6 +20,7 @@ import com.example.quizapp.databinding.ActivityTornamentPageBinding;
 import com.example.quizapp.models.TournamentModel;
 import com.example.quizapp.tournament.CreateNewTournament;
 import com.example.quizapp.R;
+import com.example.quizapp.utils.AppString;
 import com.google.android.gms.common.data.DataHolder;
 import com.google.android.material.tabs.TabLayout;
 
@@ -41,6 +42,9 @@ public class TournamentPage extends AppCompatActivity {
     private QuizConroller quizConroller;
 
     TournamentListAdapter adapter;
+
+    int defaultSelectedTab = 0;
+    String defTag = AppString.strOngoing;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,12 +69,12 @@ public class TournamentPage extends AppCompatActivity {
 
         card_to_details = findViewById(R.id.information_card);
 
-        tabLayout.addTab(tabLayout.newTab().setText("Current"));
+        tabLayout.addTab(tabLayout.newTab().setText(AppString.strOngoing));
         tabLayout.addTab(tabLayout.newTab().setText("Upcoming"));
         tabLayout.addTab(tabLayout.newTab().setText("Old"));
 
 // Optional: Set a default selected tab
-        tabLayout.getTabAt(0).select();
+        tabLayout.getTabAt(defaultSelectedTab).select();
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -82,34 +86,21 @@ public class TournamentPage extends AppCompatActivity {
                 switch (pos){
 
                     case 0:
-                        filterTag = "Current";
+                        defTag = AppString.strOngoing;
                         break;
                     case 1:
 
-                        filterTag = "Upcoming";
+                        defTag = "Upcoming";
                         break;
                     case 2:
 
-                        filterTag = "Old";
+                        defTag = "Old";
                         break;
                     default:
-                        filterTag = "Current";
+                        defTag = AppString.strOngoing;
                         break;
                 }
-
-                for (TournamentModel tournament : quizConroller.getTournamentList()) {
-                    // Filter the tournament list based on the selected tab
-                    try {
-                        if (tournament.getTag(new Date()).equals(filterTag)) {
-                            filteredList.add(tournament);
-                        }
-                    } catch (ParseException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-
-                // Update RecyclerView with the filtered list
-                adapter.updateList(filteredList);
+                filterListByTag(defTag);
             }
 
             @Override
@@ -146,6 +137,7 @@ public class TournamentPage extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         loadData();
+
     }
 
     void loadData(){
@@ -154,8 +146,30 @@ public class TournamentPage extends AppCompatActivity {
             public void onSuccess() {
                 adapter.notifyDataSetChanged();
                 showProgree(false);
+                filterListByTag(defTag);
+                binding.tabLayout.getTabAt(defaultSelectedTab).select();
+
             }
         });
+    }
+
+    void filterListByTag(String filterTag){
+        List<TournamentModel> filteredList = new ArrayList<>();
+
+        for (TournamentModel tournament : quizConroller.getTournamentList()) {
+
+            // Filter the tournament list based on the selected tab
+            try {
+                if (tournament.getTag(new Date()).equals(filterTag)) {
+                    filteredList.add(tournament);
+                }
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        // Update RecyclerView with the filtered list
+        adapter.updateList(filteredList);
     }
 
   void  setRv(TournamentListAdapter adapter){
